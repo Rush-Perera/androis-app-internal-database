@@ -4,19 +4,33 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.util.Log;
+
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
+
+    private static final String TAG = MainActivity.class.getName();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        SQLiteDatabase appDb = openOrCreateDatabase("app_db", MODE_PRIVATE, null);
+        DBHelper dbHelper = new DBHelper(getApplicationContext());
+        dbHelper.getWritableDatabase();
 
-        appDb.execSQL("CREATE TABLE IF NOT EXISTS User(name VARCHAR, email VARCHAR, address VARCHAR)");
+        User user = new User("Achintha", "achintha@jiat.lk", "Colombo 5");
+        dbHelper.insertUser(user);
 
-//        appDb.close();
+
+//        List<User> users = dbHelper.getAllUsers();
+
+//        users.forEach(u-> {
+//            Log.i(TAG, u.getName()+" "+u.getEmail());
+//        });
+
+
 
     }
 }
